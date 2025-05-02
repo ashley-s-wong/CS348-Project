@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Report</title>
+</head>
+<body>
+    <h1>Appointment Report</h1>
+    <form method="POST">
+        <label for="doctor_id">Doctor:</label>
+        <select name="doctor_id" required>
+            {% for doctor in doctors %}
+            <option value="{{ doctor.id }}">{{ doctor.name }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="start_date">Start Date:</label>
+        <input type="date" name="start_date" required><br>
+
+        <label for="end_date">End Date:</label>
+        <input type="date" name="end_date" required><br>
+
+        <button type="submit">Generate Report</button>
+    </form>
+
+    {% if appointments %}
+    <h2>Appointments</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Duration</th>
+            <th>Doctor</th>
+            <th>Patient</th>
+            <th>Status</th>
+        </tr>
+        {% for appointment in appointments %}
+        <tr>
+            <td>{{ appointment.id }}</td>
+            <td>{{ appointment.date }}</td>
+            <td>{{ appointment.time }}</td>
+            <td>{{ appointment.duration }}</td>
+            <td>{{ appointment.doctor.name }}</td>
+            <td>{{ appointment.patient.name }}</td>
+            <td>{{ appointment.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h3>Average Duration: {{ avg_duration }} minutes</h3>
+    <h3>Status Breakdown:</h3>
+    <ul>
+        <li>Completed: {{ avg_status['Completed'] }}</li>
+        <li>Pending: {{ avg_status['Pending'] }}</li>
+    </ul>
+    {% endif %}
+</body>
+</html>
